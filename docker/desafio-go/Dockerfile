@@ -6,7 +6,7 @@ WORKDIR /app
 
 RUN go build main.go
 
-FROM alpine:3.6.5
+FROM scratch
 
 WORKDIR /app
 
