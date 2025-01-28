@@ -19,6 +19,7 @@ services:
       - fullcycle-network
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./data:/var/lib/mysql
 
   fullcyle-nginx:
     container_name: fullcycle-nginx
