@@ -1,0 +1,5 @@
+CREATE DATABASE IF NOT EXISTS people;
+
+USE people;
+
+CREATE TABLE people(name VARCHAR(100));
