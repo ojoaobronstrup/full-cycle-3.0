@@ -1,0 +1,35 @@
+services:
+  fullcycle-server:
+    container_name: fullcycle-server
+    image: node
+    working_dir: /app
+    command: bash -c "npm install && node index.js"
+    volumes:
+      - ./:/app
+    networks:
+      - fullcycle-network
+
+  fullcycle-banco:
+    container_name: fullcycle-banco
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: fullcycle
+    networks:
+      - fullcycle-network
+    volumes:
+      - ./data:/var/lib/mysql
+
+  fullcyle-nginx:
+    container_name: fullcycle-nginx
+    image: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 8080:8080
+    networks:
+      - fullcycle-network
+
+networks:
+  fullcycle-network:
+    driver: bridge
