@@ -8,6 +8,9 @@ services:
       - ./:/app
     networks:
       - fullcycle-network
+    depends_on:
+      fullcycle-banco:
+        condition: service_healthy
 
   fullcycle-banco:
     container_name: fullcycle-banco
@@ -20,6 +23,12 @@ services:
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "-uroot", "-pfullcycle", "ping"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
 
   fullcyle-nginx:
     container_name: fullcycle-nginx
@@ -30,6 +39,8 @@ services:
       - 8080:8080
     networks:
       - fullcycle-network
+    depends_on:
+      - fullcycle-server
 
 networks:
   fullcycle-network:
